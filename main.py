@@ -28,14 +28,24 @@ username.send_keys("standard_user")
 
 # Find password field and enter password
 password = driver.find_element(By.ID, "password")
-password.send_keys("secret_sauce")
+password.send_keys("secrett_sauce")
 
 
 # Find login button and click it
 login_button = driver.find_element(By.ID, "login-button")
 login_button.click()
 
-
 time.sleep(5)
+
+
+# Find the error message with the CSS selector(attribute selector)
+error_message = driver.find_element(By.CSS_SELECTOR, "[data-test='error']")
+
+
+# Verify that the error is displayed
+assert error_message.is_displayed()
+
+
+print("Error message is displayed:", error_message.text)
 
 driver.quit()
