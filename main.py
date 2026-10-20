@@ -2,6 +2,8 @@ from selenium import webdriver
 import time
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 
 #https://sites.google.com/chromium.org/driver/
@@ -14,38 +16,47 @@ from selenium.webdriver.common.by import By
 
 driver = webdriver.Chrome()
 
-driver.get("https://www.saucedemo.com/")
 
 # Maximize browser window
 driver.maximize_window()
 
-print(driver.title)
 
-# Find username field and enter username
-username = driver.find_element(By.ID, "user-name")
-username.send_keys("standard_user")
+# Create an explicit wait with a 10-second timeout
+wait = WebDriverWait(driver, 10)
 
 
-# Find password field and enter password
-password = driver.find_element(By.ID, "password")
-password.send_keys("secrett_sauce")
+try:
+    driver.get("https://www.saucedemo.com/")
+
+    print(driver.title)
+
+    # Find username field and enter username
+    username = wait.until(EC.visibility_of_element_located((By.ID, "user-name")))
+    username.send_keys("standard_user")
 
 
-# Find login button and click it
-login_button = driver.find_element(By.ID, "login-button")
-login_button.click()
-
-time.sleep(5)
+    # Find password field and enter password
+    password = wait.until(EC.visibility_of_element_located((By.ID, "password")))
+    password.send_keys("secret_sauce")
 
 
-# Find the error message with the CSS selector(attribute selector)
-error_message = driver.find_element(By.CSS_SELECTOR, "[data-test='error']")
+    # Find login button and click it
+    login_button = driver.find_element(By.ID, "login-button")
+    login_button.click()
+
+    # Wait for products page heading
+    heading = wait.until(
+        EC.visibility_of_element_located(
+            (By.CLASS_NAME, "title")
+        )
+    )
+
+    #Verify the results 
+    assert heading.text == "Products"
 
 
-# Verify that the error is displayed
-assert error_message.is_displayed()
+    print("Login successful, heading is:", heading.text)
 
+finally:
 
-print("Error message is displayed:", error_message.text)
-
-driver.quit()
+    driver.quit()
