@@ -1,4 +1,4 @@
-```yaml
+
 name: Selenium Automation Tests
 
 on:
@@ -29,4 +29,3 @@ jobs:
 
       - name: Run Selenium tests
         run: pytest -v
-```
