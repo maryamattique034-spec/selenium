@@ -27,7 +27,7 @@ def test_cart_workflow(driver):
     # 1. Add a product
     add_button = wait.until(
         EC.element_to_be_clickable(
-            (By.ID, "add-to-cart-sauce-labs-backpack")
+            (By.ID, "add-to-cart-test.allthethings()-t-shirt-(red)")
         )
     )
     add_button.click()
@@ -46,20 +46,20 @@ def test_cart_workflow(driver):
     # 4. Verify the product name
     product_name = wait.until(
         EC.visibility_of_element_located(
-            (By.CLASS_NAME, "inventory_item_name")
+            (By.XPATH, "//div[@class='cart_item']//div[@class='inventory_item_name']")
         )
     )
-    assert product_name.text == "Sauce Labs Backpack"
+    assert product_name.text == "Test.allTheThings() T-Shirt (Red)"
 
     # 5. Verify the product price
     product_price = driver.find_element(
         By.CLASS_NAME, "inventory_item_price"
     )
-    assert product_price.text == "$29.99"
+    assert product_price.text == "$15.99"
 
     # 6. Remove the product
     driver.find_element(
-        By.ID, "remove-sauce-labs-backpack"
+        By.ID, "remove-test.allthethings()-t-shirt-(red)"
     ).click()
 
     # 7. Verify the cart is empty
