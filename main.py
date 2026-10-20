@@ -1,6 +1,7 @@
 from selenium import webdriver
 import time
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 
 
 #https://sites.google.com/chromium.org/driver/
@@ -13,8 +14,28 @@ from selenium.webdriver.chrome.service import Service
 
 driver = webdriver.Chrome()
 
-driver.get("https://www.google.com")
+driver.get("https://www.saucedemo.com/")
 
-time.sleep(10)
+# Maximize browser window
+driver.maximize_window()
+
+print(driver.title)
+
+# Find username field and enter username
+username = driver.find_element(By.ID, "user-name")
+username.send_keys("standard_user")
+
+
+# Find password field and enter password
+password = driver.find_element(By.ID, "password")
+password.send_keys("secret_sauce")
+
+
+# Find login button and click it
+login_button = driver.find_element(By.ID, "login-button")
+login_button.click()
+
+
+time.sleep(5)
 
 driver.quit()
