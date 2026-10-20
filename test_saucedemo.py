@@ -1,14 +1,4 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-import pytest
-
-@pytest.fixture
-def driver():
-    browser = webdriver.Chrome()
-    browser.maximize_window()
-    yield browser
-    browser.quit()
-
 
 def test_successful_login(driver):
     driver.get("https://www.saucedemo.com/")
